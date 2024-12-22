@@ -1,0 +1,81 @@
+*,body{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', serif;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    align-items: center;
+    margin: 0 auto;
+}
+button{
+    padding: 10px 40px;
+    border-radius: 0.2rem;
+    border: none;
+    background: dodgerblue;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 400ms;
+}
+button:hover{
+    background: rgba(30, 144, 255, 0.8);
+}
+input {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 20px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 20px 20px;
+    margin: 8px 0;
+    border: 5px solid #333;
+    user-select: none;
+    width: 100%;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input:checked + label {
+    background-color: #4caf50;
+    color: #333;
+    border: 5px solid #333;
+}
+
+label::before {
+    content: attr(data-name);
+    color: #e7b80f;
+    margin-right: 10px;
+}
+
+input:hover {
+    opacity: 0.8;
+}
+#kimlik label{
+    background-color: inherit;
+    border: inherit;
+    color: #333333;
+    font-size: 2rem;
+}
+#username{
+    text-transform: uppercase;
+}
+#cevaplar{
+    width: 100%;
+}

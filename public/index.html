@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bilgi Yarışması</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="socket.io.js"></script>
+	<script>
+		const socket = io();
+
+		let verdigimCevap = [];
+
+		// Kullanıcı adı gönderme
+		function submitUsername() {
+			const un = document.getElementById('username').value;
+			const username = un.toUpperCase();
+			const girisAlani = document.getElementById('kimlik');
+			if (username) {
+				socket.emit('newUser', username);  // Socket üzerinden adını gönder
+				girisAlani.style.display = "none";
+			}
+		}
+
+		// 	LOGIC
+		socket.on('cevaplar', (hangiSorudayiz) => {
+			const cevaplar = document.getElementById("cevaplar");
+			cevaplar.innerHTML = `
+          <input type="radio" name="cevapSec" value="0" id="btnA"><label for="btnA" class="cevapSecenekleri" data-name="A">${sorular[hangiSorudayiz].cevaplar[0]}</label></radio>
+          <input type="radio" name="cevapSec" value="1" id="btnB"><label for="btnB" class="cevapSecenekleri" data-name="B">${sorular[hangiSorudayiz].cevaplar[1]}</label></radio>
+          <input type="radio" name="cevapSec" value="2" id="btnC"><label for="btnC" class="cevapSecenekleri" data-name="C">${sorular[hangiSorudayiz].cevaplar[2]}</label></radio>
+        `;
+			console.log("Cevaplar Getirildi");
+		});
+		socket.on('cevapYolla', (deger) => {
+			if (document.querySelector('input[name="cevapSec"]:checked') == null) {
+				socket.emit('isteCevabim', "BOŞ!");
+			} else {
+				verdigimCevap = [sorular[deger].cevaplar[document.querySelector('input[name="cevapSec"]:checked').value],sorular[deger].cevaplar[document.querySelector('input[name="cevapSec"]:checked').value]===sorular[deger].cevaplar[sorular[deger].dogruCevap]?1:0];
+				socket.emit('isteCevabim',verdigimCevap);
+				console.log("cevap yollandı");
+			}
+		});
+
+		socket.on('temizle', () => {
+			const inputlar = document.querySelectorAll('input[name="cevapSec"]');
+			const labeller = document.querySelectorAll(".cevapSecenekleri");
+			for (let i = 0; i < inputlar.length; i++) {
+				inputlar[i].remove();
+				labeller[i].remove();
+			}
+		});
+
+		const sorular = [
+			{
+				soru: "Dünyanın en büyük okyanusu hangisidir?",
+				cevaplar: ["Atlas Okyanusu", "Pasifik Okyanusu", "Hint Okyanusu"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Türkiye'nin başkenti neresidir?",
+				cevaplar: ["İstanbul", "Ankara", "İzmir"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Einstein'ın ünlü denklemi nedir?",
+				cevaplar: ["E = mc²", "F = ma", "P = mv"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Amerika Birleşik Devletleri'nin bağımsızlık günü hangi tarihte kutlanır?",
+				cevaplar: ["1 Temmuz", "4 Temmuz", "14 Temmuz"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Bir yılın 365 gün olduğu takvim hangi takvimdir?",
+				cevaplar: ["Gregoryen Takvimi", "Miladi Takvim", "Hicri Takvim"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Mona Lisa tablosu hangi sanatçıya aittir?",
+				cevaplar: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Birleşmiş Milletler'in merkezi hangi şehirde bulunmaktadır?",
+				cevaplar: ["Paris", "New York", "Londra"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Dünyanın en büyük çölü hangisidir?",
+				cevaplar: ["Sahra Çölü", "Antarktika", "Gobi Çölü"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Shakespeare'in ünlü dramalarından biri nedir?",
+				cevaplar: ["Macbeth", "Don Kişot", "Moby Dick"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Hangi gezegen güneşe en yakın olanıdır?",
+				cevaplar: ["Venüs", "Mars", "Merkür"],
+				dogruCevap: "2",
+			},
+			{
+				soru: "Hangi elementin kimyasal sembolü 'O' dur?",
+				cevaplar: ["Oksijen", "Osmiyum", "Ondanium"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Hangi ülke dünyanın en büyük yüzölçümüne sahiptir?",
+				cevaplar: ["Rusya", "Kanada", "Çin"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Türkiye'nin en uzun nehri hangisidir?",
+				cevaplar: ["Fırat", "Dicle", "Kızılırmak"],
+				dogruCevap: "2",
+			},
+			{
+				soru: "Mısırlıların piramitleri inşa ettiği eski başkent neresidir?",
+				cevaplar: ["Luksor", "Memfis", "Kahire"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Türk mutfağının en bilinen tatlılarından biri hangisidir?",
+				cevaplar: ["Baklava", "Pasta", "Tiramisu"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Dünyadaki en yüksek dağ hangisidir?",
+				cevaplar: ["Everest", "K2", "Fitz Roy"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Efsanevi Yunan tanrısı Zeus'un hangi silahı vardır?",
+				cevaplar: ["Mızrak", "Şimşek", "Kalkan"],
+				dogruCevap: "1",
+			},
+			{
+				soru: "Fransa'nın ulusal marşı nedir?",
+				cevaplar: ["La Marseillaise", "Ode to Joy", "God Save the Queen"],
+				dogruCevap: "0",
+			},
+			{
+				soru: "Bir futbol maçında her takımın kaç oyuncusu sahada bulunur?",
+				cevaplar: ["9", "10", "11"],
+				dogruCevap: "2",
+			},
+			{
+				soru: "İlk Türk Cumhuriyeti hangi devlet tarafından kurulmuştur?",
+				cevaplar: [
+					"Türkiye Cumhuriyeti",
+					"Azerbaycan Cumhuriyeti",
+					"Kırgızistan Cumhuriyeti",
+				],
+				dogruCevap: "0",
+			},
+		];
+	</script>
+</head>
+<body>
+<div class="container">
+	<div id="kimlik">
+		<label for="username">Takım Adı</label><input type="text" id="username">
+		<button onclick="submitUsername()">Giriş</button>
+	</div>
+	<div id="cevaplar"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Bilgi Yarismasi Admin Sayfasi</title>
+	<link rel="stylesheet" href="css/admin.css"/>
+	<script src="socket.io.js"></script>
+	<script src="app.js" defer></script>
+</head>
+<body>
+<div class="container">
+	<div class="puanDurumu">
+		<h3>YARIŞMACILAR</h3>
+		<ul id="userList">
+			<!-- Kullanıcı isimleri buraya eklenecek -->
+		</ul>
+	</div>
+	<div class="content">
+		<div class="yarismaBaslat">
+			<div id="sureler">
+				<p id="zamanlayici" data-value="SÜRE">15</p>
+				<!--				<p id="okumaZamanlayici" data-value="Okuma için Süre">5</p>-->
+			</div>
+			<div id="soru">YARIŞMA BAŞLIYOR</div>
+			<div id="cevaplar"></div>
+			<div id="modal">
+				<div id="modal-text">
+					<ul id="verilenCevaplar"></ul>
+				</div>
+			</div>
+			<div id="modal2">
+				<div id="modal-text2">
+					<ul id="verilenCevaplar2"></ul>
+				</div>
+			</div>
+			<div class="control-group">
+				<button onclick="yarismayaBasla()" id="btnYarismaBaslat">
+					Yarışmayı Başlat
+				</button>
+				<button onclick="sonrakiSoruyaGec()" id="btnSonrakiSoruyaGec">
+					Sonraki Soruya Geç
+				</button>
+			</div>
+			<div id="soruAraligi">
+				<input type="number" id="baslangicSoruNo" placeholder="Baslangic Soru No">
+				<input type="number" id="cevaplamaSuresi" value="15">
+			</div>
+			<div class="musicBtn">
+				<button onclick="playMusic('millionaire-idle.mp3')">26SN - BEKLEME</button>
+				<button onclick="playMusic('millionaire-theme.mp3')">2DK - TEMA</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
