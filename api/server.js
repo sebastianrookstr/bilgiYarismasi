@@ -95,3 +95,8 @@ io.on('connection', (socket) => {
 server.listen(3000, () => {
     console.log('Sunucu http://localhost:3000 adresinde çalışıyor');
 });
+
+// Vercel API function olarak sunucuyu başlat
+module.exports = (req, res) => {
+    server(req, res); // serverless fonksiyon olarak çalıştır
+  };
